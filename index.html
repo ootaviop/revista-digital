@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navegação Visual - Revista</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Mensagem de aviso para telas pequenas -->
+    <div id="screenWarning" class="screen-warning">
+        <div class="warning-content">
+            <h2>Tela muito pequena</h2>
+            <p>Este conteúdo é otimizado para telas com largura mínima de 768px.</p>
+            <p>Por favor, visualize em um dispositivo com tela maior.</p>
+        </div>
+    </div>
+
+    <div id="container">
+        <svg id="canvas" width="100%" height="100%">
+            <defs>
+                <!-- Gradientes e filtros -->
+                <filter id="shadow">
+                    <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/>
+                </filter>
+                <linearGradient id="nodeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#4a90e2;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#357abd;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <g id="mainGroup"></g>
+        </svg>
+
+        <!-- Barra de navegação vertical -->
+        <div id="navigationBar">
+            <div class="nav-controls">
+                <span id="progress">1 / 1</span>
+                <div class="nav-buttons">
+                    <button id="prevBtn" class="nav-btn">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Anterior
+                    </button>
+                    <button id="nextBtn" class="nav-btn">
+                        Próximo
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mini mapa (opcional) -->
+        <div id="minimap">
+            <svg id="minimapCanvas" width="200" height="150"></svg>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="nodeModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <button id="modalCloseBtn" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="modalText"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="navigation-engine.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
