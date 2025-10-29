@@ -36,8 +36,29 @@ class NavigationEngine {
             height: this.virtualSpace.height
         };
 
+        // Breakpoint atual (será atualizado dinamicamente)
+        this.currentBreakpoint = this.detectBreakpoint();
+
         this.setupEventListeners();
         this.initializeViewBox();
+    }
+
+    /**
+     * Detecta o breakpoint atual baseado na largura da janela
+     */
+    detectBreakpoint() {
+        const width = window.innerWidth;
+
+        if (width >= 768 && width <= 1024) {
+            return 'tablet';
+        } else if (width >= 1025 && width <= 1440) {
+            return 'desktop';
+        } else if (width >= 1441) {
+            return 'largeDesktop';
+        }
+
+        // Fallback para telas menores que 768px (não suportado, mas retorna tablet)
+        return 'tablet';
     }
 
     setupEventListeners() {
@@ -59,10 +80,40 @@ class NavigationEngine {
      * Manipula redimensionamento em tempo real
      */
     handleResize() {
+        const newBreakpoint = this.detectBreakpoint();
+
+        // Se o breakpoint mudou, recarregar dados para aplicar novas configurações
+        if (newBreakpoint !== this.currentBreakpoint) {
+            this.currentBreakpoint = newBreakpoint;
+            console.log(`📱 Breakpoint mudou para: ${newBreakpoint}`);
+
+            // Recarregar dados se disponíveis
+            if (this.data) {
+                this.loadData(this.data);
+            }
+        }
+
         // Re-navegar para o nó atual com novo tamanho de viewport
         if (this.nodes.length > 0) {
             this.navigateToIndex(this.currentIndex, true);
         }
+    }
+
+    /**
+     * Obtém configuração responsiva de um nó para o breakpoint atual
+     * Prioridade: node.responsive[breakpoint] > node (valores padrão)
+     */
+    getResponsiveConfig(nodeData, property) {
+        // Tentar obter config específica do breakpoint
+        if (nodeData.responsive && nodeData.responsive[this.currentBreakpoint]) {
+            const breakpointConfig = nodeData.responsive[this.currentBreakpoint];
+            if (breakpointConfig[property] !== undefined) {
+                return breakpointConfig[property];
+            }
+        }
+
+        // Fallback para valor padrão do nó
+        return nodeData[property];
     }
 
     updateViewBox() {
@@ -72,65 +123,45 @@ class NavigationEngine {
     }
 
     /**
-     * Obtém dimensões do nó a partir das CSS custom properties
+     * Obtém dimensões do nó - prioriza customDimensions responsivas
      * Retorna em unidades do espaço virtual SVG
+     *
+     * @param {string} nodeType - Tipo do nó (central, table, list, question)
+     * @param {object} nodeData - Dados completos do nó (para buscar configs responsivas)
      */
-    getNodeDimensions(nodeType) {
-        const root = document.documentElement;
-        const style = getComputedStyle(root);
+    getNodeDimensions(nodeType, nodeData = null) {
+        let customDimensions = null;
 
-        let width, height, maxWidth;
-
-        switch (nodeType) {
-            case 'central':
-                width = parseFloat(style.getPropertyValue('--node-central-width'));
-                height = parseFloat(style.getPropertyValue('--node-central-height'));
-
-                // Fallback
-                if (isNaN(width)) width = 400;
-                if (isNaN(height)) height = 280;
-
-                // Converter para escala virtual (proporcionalmente)
-                return {
-                    width: width * 2,   // Escala 2x para espaço virtual
-                    height: height * 2
-                };
-
-            case 'table':
-                width = parseFloat(style.getPropertyValue('--node-table-width'));
-                height = parseFloat(style.getPropertyValue('--node-table-height'));
-                maxWidth = parseFloat(style.getPropertyValue('--node-table-max-width'));
-
-                // Fallback
-                if (isNaN(width)) width = 700;
-                if (isNaN(height)) height = 450;
-                if (isNaN(maxWidth)) maxWidth = 1400;
-
-                return {
-                    width: width * 2,
-                    height: height * 2,
-                    maxWidth: maxWidth * 2
-                };
-
-            case 'question':
-                width = parseFloat(style.getPropertyValue('--node-question-width'));
-                height = parseFloat(style.getPropertyValue('--node-question-height'));
-                maxWidth = parseFloat(style.getPropertyValue('--node-question-max-width'));
-
-                // Fallback
-                if (isNaN(width)) width = 550;
-                if (isNaN(height)) height = 650;
-                if (isNaN(maxWidth)) maxWidth = 1100;
-
-                return {
-                    width: width * 2,
-                    height: height * 2,
-                    maxWidth: maxWidth * 2
-                };
-
-            default:
-                return { width: 800, height: 600 };
+        // PRIORIDADE 1: customDimensions responsivas (do breakpoint atual)
+        if (nodeData) {
+            customDimensions = this.getResponsiveConfig(nodeData, 'customDimensions');
+            console.log(`📏 Dimensões personalizadas para ${nodeType}:`, customDimensions);
         }
+
+        // PRIORIDADE 2: customDimensions fornecidas diretamente (fallback)
+        if (customDimensions && customDimensions.width && customDimensions.height) {
+            return {
+                width: customDimensions.width * 2,   // Converter para espaço SVG virtual
+                height: customDimensions.height * 2,
+                maxWidth: (customDimensions.maxWidth || customDimensions.width * 1.5) * 2
+            };
+        }
+
+        // PRIORIDADE 3: Fallbacks por tipo (valores padrão razoáveis)
+        const defaults = {
+            'central': { width: 350, height: 240 },
+            'table': { width: 600, height: 350 },
+            'list': { width: 380, height: 520 },
+            'question': { width: 480, height: 550 }
+        };
+
+        const dim = defaults[nodeType] || { width: 500, height: 400 };
+
+        return {
+            width: dim.width * 2,
+            height: dim.height * 2,
+            maxWidth: dim.width * 3  // 1.5x convertido para SVG
+        };
     }
 
     /**
@@ -150,6 +181,30 @@ class NavigationEngine {
     }
 
     /**
+     * Valida posicionamento para evitar sobreposição (Nível 2)
+     */
+    validateNodePosition(node, existingNodes) {
+        for (const existing of existingNodes) {
+            const dx = node.x - existing.x;
+            const dy = node.y - existing.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            // Calcular distância mínima necessária
+            const minDistance = (Math.max(node.dimensions.width, node.dimensions.height) +
+                                Math.max(existing.dimensions.width, existing.dimensions.height)) / 2 +
+                                this.config.nodeMargin;
+
+            if (distance < minDistance) {
+                console.warn(`⚠️ Nó "${node.data.title}" muito próximo de "${existing.data.title}".`, {
+                    distanciaAtual: Math.round(distance),
+                    distanciaMinima: Math.round(minDistance),
+                    sugestao: `Aumentar distância em ${Math.round(minDistance - distance)} unidades`
+                });
+            }
+        }
+    }
+
+    /**
      * Carrega dados do JSON e cria a estrutura de nós
      */
     loadData(data) {
@@ -164,30 +219,43 @@ class NavigationEngine {
         const centralNode = this.createCentralNode(data.centralNode);
         this.nodes.push(centralNode);
 
-        // Calcular dimensões de todos os nós primeiro
-        const nodeDimensions = data.nodes.map(nodeData =>
-            this.getNodeDimensions(nodeData.type)
-        );
-
-        // Calcular raio ideal baseado nas dimensões
-        const radius = this.calculateIdealRadius(centralNode.dimensions, nodeDimensions);
-
-        // Criar nós ao redor do central
-        const angleStep = (2 * Math.PI) / data.nodes.length;
-
+        // Criar nós ao redor do central com posicionamento customizado
         data.nodes.forEach((nodeData, index) => {
-            const angle = angleStep * index - Math.PI / 2; // Começa no topo
-            const x = this.virtualSpace.centerX + Math.cos(angle) * radius;
-            const y = this.virtualSpace.centerY + Math.sin(angle) * radius;
+            let x, y;
+
+            // Obter position responsiva (pode vir de responsive[breakpoint] ou padrão)
+            const position = this.getResponsiveConfig(nodeData, 'position');
+
+            // Sistema de coordenadas relativas
+            if (position && typeof position.offsetX !== 'undefined') {
+                // Usar coordenadas relativas ao centro (responsivas ou padrão)
+                x = this.virtualSpace.centerX + position.offsetX;
+                y = this.virtualSpace.centerY + position.offsetY;
+            } else {
+                // Fallback: posicionamento circular (compatibilidade)
+                const nodeDimensions = data.nodes.map(nd =>
+                    this.getNodeDimensions(nd.type, nd)
+                );
+                const radius = this.calculateIdealRadius(centralNode.dimensions, nodeDimensions);
+                const angleStep = (2 * Math.PI) / data.nodes.length;
+                const angle = angleStep * index - Math.PI / 2;
+                x = this.virtualSpace.centerX + Math.cos(angle) * radius;
+                y = this.virtualSpace.centerY + Math.sin(angle) * radius;
+            }
 
             let node;
             if (nodeData.type === 'table') {
                 node = this.createTableNode(nodeData, x, y);
+            } else if (nodeData.type === 'list') {
+                node = this.createListNode(nodeData, x, y);
             } else if (nodeData.type === 'question') {
                 node = this.createQuestionNode(nodeData, x, y);
             }
 
             if (node) {
+                // Validar posicionamento (Nível 2)
+                this.validateNodePosition(node, this.nodes);
+
                 this.nodes.push(node);
 
                 // Criar linha de conexão com o nó central
@@ -214,7 +282,7 @@ class NavigationEngine {
         const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         group.setAttribute('class', 'node central-node');
 
-        const dimensions = this.getNodeDimensions('central');
+        const dimensions = this.getNodeDimensions('central', data);
         const { width, height } = dimensions;
 
         // Posicionar no centro do espaço virtual
@@ -259,7 +327,7 @@ class NavigationEngine {
         group.setAttribute('class', 'node table-node');
         group.setAttribute('transform', `translate(${x}, ${y})`);
 
-        const dimensions = this.getNodeDimensions('table');
+        const dimensions = this.getNodeDimensions('table', data);
         const { width, height } = dimensions;
 
         // foreignObject
@@ -290,6 +358,48 @@ class NavigationEngine {
         }
 
         div.appendChild(tableWrapper);
+
+        // Adicionar legenda se especificado
+        if (data.showLegend) {
+            const legendContainer = document.createElement('div');
+            legendContainer.className = 'legend-container';
+
+            const legendTitle = document.createElement('span');
+            legendTitle.className = 'legend-title';
+            legendTitle.textContent = 'Legenda:';
+            legendContainer.appendChild(legendTitle);
+
+            const legendItems = document.createElement('div');
+            legendItems.className = 'legend-items';
+
+            const legends = [
+                { badge: 'I', label: 'Introduzir', className: 'intro' },
+                { badge: 'A', label: 'Aprofundar', className: 'develop' },
+                { badge: 'C', label: 'Consolidar', className: 'consolidate' },
+                { badge: 'R', label: 'Retomar', className: 'review' }
+            ];
+
+            legends.forEach(legend => {
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+
+                const badge = document.createElement('span');
+                badge.className = `legend-badge ${legend.className}`;
+                badge.textContent = legend.badge;
+                item.appendChild(badge);
+
+                const label = document.createElement('span');
+                label.className = 'legend-label';
+                label.textContent = legend.label;
+                item.appendChild(label);
+
+                legendItems.appendChild(item);
+            });
+
+            legendContainer.appendChild(legendItems);
+            div.appendChild(legendContainer);
+        }
+
         foreignObject.appendChild(div);
         group.appendChild(foreignObject);
 
@@ -299,6 +409,83 @@ class NavigationEngine {
             y: y,
             data: data,
             type: 'table',
+            dimensions: dimensions
+        };
+    }
+
+    /**
+     * Cria um nó de lista especial usando foreignObject
+     */
+    createListNode(data, x, y) {
+        const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        group.setAttribute('class', 'node list-node');
+        group.setAttribute('transform', `translate(${x}, ${y})`);
+
+        const dimensions = this.getNodeDimensions('list', data);
+        const { width, height } = dimensions;
+
+        // foreignObject
+        const foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+        foreignObject.setAttribute('x', -width / 2);
+        foreignObject.setAttribute('y', -height / 2);
+        foreignObject.setAttribute('width', width);
+        foreignObject.setAttribute('height', height);
+
+        // Criar conteúdo HTML
+        const div = document.createElement('div');
+        div.className = 'node-list-content';
+
+        // Título
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'list-title';
+        titleDiv.textContent = data.title || '';
+        div.appendChild(titleDiv);
+
+        // Lista de itens
+        if (data.listItems && data.listItems.length > 0) {
+            const ul = document.createElement('ul');
+            ul.className = 'items-list';
+
+            data.listItems.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.className = 'items-list-item';
+
+                // Número
+                const numberSpan = document.createElement('span');
+                numberSpan.className = 'item-number';
+                numberSpan.textContent = `${index + 1}.`;
+                li.appendChild(numberSpan);
+
+                // Conteúdo
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'item-content';
+
+                const levelSpan = document.createElement('span');
+                levelSpan.className = 'item-level';
+                levelSpan.textContent = item.level || '';
+                contentDiv.appendChild(levelSpan);
+
+                const descSpan = document.createElement('span');
+                descSpan.className = 'item-description';
+                descSpan.textContent = item.description || '';
+                contentDiv.appendChild(descSpan);
+
+                li.appendChild(contentDiv);
+                ul.appendChild(li);
+            });
+
+            div.appendChild(ul);
+        }
+
+        foreignObject.appendChild(div);
+        group.appendChild(foreignObject);
+
+        return {
+            element: group,
+            x: x,
+            y: y,
+            data: data,
+            type: 'list',
             dimensions: dimensions
         };
     }
@@ -355,7 +542,7 @@ class NavigationEngine {
         group.setAttribute('class', 'node question-node');
         group.setAttribute('transform', `translate(${x}, ${y})`);
 
-        const dimensions = this.getNodeDimensions('question');
+        const dimensions = this.getNodeDimensions('question', data);
         const { width, height } = dimensions;
 
         // foreignObject
@@ -463,6 +650,32 @@ class NavigationEngine {
     }
 
     /**
+     * Calcula zoom contextual - suporta zoom responsivo por nó
+     * Zoom mais afastado para manter o senso de "mapa conectado"
+     */
+    calculateSafeZoom(node) {
+        // PRIORIDADE 1: Zoom responsivo específico do nó
+        if (node.data) {
+            const responsiveZoom = this.getResponsiveConfig(node.data, 'zoom');
+            if (responsiveZoom !== undefined) {
+                return responsiveZoom;
+            }
+        }
+
+        // PRIORIDADE 2: Mapa de zoom fixo por tipo (fallback)
+        const nodeType = node.type;
+        const zoomMap = {
+            'central': 1.5,     // Nó central - zoom equilibrado
+            'table': 1.5,       // Tabelas - vê parte das conexões
+            'list': 1.5,        // Listas - vê parte das conexões
+            'question': 1.5,    // Questões - ligeiramente mais próximo
+            'default': 0.9      // Padrão - mostra contexto
+        };
+
+        return zoomMap[nodeType] || zoomMap['default'];
+    }
+
+    /**
      * Navega para um nó específico por índice
      * Implementa zoom isolado - mostra APENAS o nó ativo
      */
@@ -483,9 +696,12 @@ class NavigationEngine {
         // Calcular viewBox que mostra APENAS este nó com margem
         const { width, height } = node.dimensions;
 
-        // Adicionar margem ao redor do nó (25%)
-        const viewBoxWidth = width * this.config.zoomMargin;
-        const viewBoxHeight = height * this.config.zoomMargin;
+        // Calcular zoom seguro (Nível 1 - evita corte)
+        const safeZoomMargin = this.calculateSafeZoom(node);
+
+        // Adicionar margem ao redor do nó
+        const viewBoxWidth = width * safeZoomMargin;
+        const viewBoxHeight = height * safeZoomMargin;
 
         // Calcular aspect ratio da tela
         const screenAspect = window.innerWidth / window.innerHeight;

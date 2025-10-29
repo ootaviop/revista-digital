@@ -2,13 +2,16 @@
    CSS CUSTOM PROPERTIES (Responsivo)
    ======================================== */
 :root {
+    /* Base font-size otimizado para telas comuns (1366px-1920px) */
+    font-size: clamp(16px, 1.6vw, 22px);
+
     /* Paleta de cores profissional */
-    --color-primary: #4CAF50;           /* Verde vibrante */
-    --color-primary-dark: #388E3C;      /* Verde escuro */
+    --color-primary: #FFD600;           /* Amarelo vibrante (nó central) */
+    --color-primary-dark: #FFC107;      /* Amarelo escuro */
     --color-secondary: #2196F3;         /* Azul */
     --color-secondary-dark: #1976D2;    /* Azul escuro */
-    --color-accent: #FFC107;            /* Amarelo/Dourado */
-    --color-accent-dark: #FFA000;       /* Amarelo escuro */
+    --color-accent: #FF9800;            /* Laranja/Dourado (barra superior) */
+    --color-accent-dark: #FF6F00;       /* Laranja escuro */
     --color-highlight: #FF5722;         /* Laranja/Vermelho */
 
     --color-bg-gradient-1: #E8EAF6;     /* Cinza azulado claro */
@@ -29,73 +32,104 @@
     --scale-desktop: 0.9;
     --scale-large: 1;
 
-    /* Tamanhos dos nós - valores base que serão escalados */
-    --node-central-width: 400px;
-    --node-central-height: 280px;
+    /* Tamanhos dos nós - Valores padrão (fallback) */
+    /* Dimensões customizadas são definidas no data.json via customDimensions */
 
-    --node-table-width: 700px;
-    --node-table-height: 400px;
-    --node-table-max-width: 90vw;
+    --node-central-width: 350px;
+    --node-central-height: 240px;
 
-    --node-question-width: 550px;
-    --node-question-height: 650px;
-    --node-question-max-width: 85vw;
+    --node-table-width: 600px;
+    --node-table-height: 350px;
 
-    /* Padding de segurança */
-    --node-padding: 30px;
+    --node-list-width: 380px;
+    --node-list-height: 520px;
 
-    /* Tipografia responsiva */
-    --font-size-code: clamp(28px, 2.5vw, 36px);
-    --font-size-title: clamp(15px, 1.3vw, 19px);
-    --font-size-table-title: clamp(20px, 2vw, 26px);
-    --font-size-table-header: clamp(14px, 1.4vw, 16px);
-    --font-size-table-cell: clamp(16px, 1.6vw, 20px);
-    --font-size-question-title: clamp(18px, 1.8vw, 24px);
+    --node-question-width: 480px;
+    --node-question-height: 550px;
 
-    /* Espaçamentos */
-    --spacing-xs: 8px;
-    --spacing-sm: 12px;
-    --spacing-md: 16px;
-    --spacing-lg: 24px;
-    --spacing-xl: 32px;
+    /* Limites responsivos */
+    --node-max-width: 90vw;
+    --node-max-height: 80vh;
+
+    /* Padding de segurança em em - escala com o conteúdo */
+    --node-padding: 1.25em;
+
+    /* Tipografia responsiva - otimizada para legibilidade */
+    --font-size-code: 1.5em;            /* ~30px em 20px base */
+    --font-size-title: 0.85em;          /* ~17px em 20px base */
+    --font-size-table-title: 1em;       /* ~20px em 20px base */
+    --font-size-table-header: 0.85em;   /* ~17px em 20px base */
+    --font-size-table-cell: 0.9em;      /* ~18px em 20px base */
+    --font-size-question-title: 1em;    /* ~20px em 20px base */
+
+    /* Espaçamentos em em - escalam com o font-size base */
+    --spacing-xs: 0.5em;    /* 8px ÷ 16px */
+    --spacing-sm: 0.75em;   /* 12px ÷ 16px */
+    --spacing-md: 1em;      /* 16px ÷ 16px */
+    --spacing-lg: 1.5em;    /* 24px ÷ 16px */
+    --spacing-xl: 2em;      /* 32px ÷ 16px */
 }
 
 /* Tablet (768px - 1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
     :root {
-        --node-central-width: calc(400px * var(--scale-tablet));
-        --node-central-height: calc(280px * var(--scale-tablet));
-        --node-table-width: calc(700px * var(--scale-tablet));
-        --node-table-height: calc(450px * var(--scale-tablet));
-        --node-question-width: calc(550px * var(--scale-tablet));
-        --node-question-height: calc(650px * var(--scale-tablet));
-        --node-padding: 20px;
+        /* Ajustar font-size base - conteúdo interno escala automaticamente */
+        font-size: clamp(14px, 1.4vw, 18px);
+
+        /* Escalar dimensões padrão (fallback) */
+        --node-central-width: calc(350px * var(--scale-tablet));
+        --node-central-height: calc(240px * var(--scale-tablet));
+
+        --node-table-width: calc(600px * var(--scale-tablet));
+        --node-table-height: calc(350px * var(--scale-tablet));
+
+        --node-list-width: calc(380px * var(--scale-tablet));
+        --node-list-height: calc(520px * var(--scale-tablet));
+
+        --node-question-width: calc(480px * var(--scale-tablet));
+        --node-question-height: calc(550px * var(--scale-tablet));
     }
 }
 
 /* Desktop (1025px - 1440px) */
 @media (min-width: 1025px) and (max-width: 1440px) {
     :root {
-        --node-central-width: calc(400px * var(--scale-desktop));
-        --node-central-height: calc(280px * var(--scale-desktop));
-        --node-table-width: calc(700px * var(--scale-desktop));
-        --node-table-height: calc(450px * var(--scale-desktop));
-        --node-question-width: calc(550px * var(--scale-desktop));
-        --node-question-height: calc(650px * var(--scale-desktop));
-        --node-padding: 25px;
+        /* Ajustar font-size base - conteúdo interno escala automaticamente */
+        font-size: clamp(15px, 1.5vw, 20px);
+
+        /* Escalar dimensões padrão (fallback) */
+        --node-central-width: calc(350px * var(--scale-desktop));
+        --node-central-height: calc(240px * var(--scale-desktop));
+
+        --node-table-width: calc(600px * var(--scale-desktop));
+        --node-table-height: calc(350px * var(--scale-desktop));
+
+        --node-list-width: calc(380px * var(--scale-desktop));
+        --node-list-height: calc(520px * var(--scale-desktop));
+
+        --node-question-width: calc(480px * var(--scale-desktop));
+        --node-question-height: calc(550px * var(--scale-desktop));
     }
 }
 
 /* Large Desktop (> 1440px) */
 @media (min-width: 1441px) {
     :root {
-        --node-central-width: calc(400px * var(--scale-large));
-        --node-central-height: calc(280px * var(--scale-large));
-        --node-table-width: calc(700px * var(--scale-large));
-        --node-table-height: calc(450px * var(--scale-large));
-        --node-question-width: calc(550px * var(--scale-large));
-        --node-question-height: calc(650px * var(--scale-large));
-        --node-padding: 30px;
+        /* Tamanho base para telas grandes */
+        font-size: clamp(16px, 1.6vw, 22px);
+
+        /* Manter dimensões padrão (fallback) */
+        --node-central-width: calc(350px * var(--scale-large));
+        --node-central-height: calc(240px * var(--scale-large));
+
+        --node-table-width: calc(600px * var(--scale-large));
+        --node-table-height: calc(350px * var(--scale-large));
+
+        --node-list-width: calc(380px * var(--scale-large));
+        --node-list-height: calc(520px * var(--scale-large));
+
+        --node-question-width: calc(480px * var(--scale-large));
+        --node-question-height: calc(550px * var(--scale-large));
     }
 }
 
@@ -134,9 +168,9 @@ body {
 
 .warning-content {
     background: var(--color-white);
-    padding: var(--spacing-xl) 48px;
-    border-radius: 16px;
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+    padding: var(--spacing-xl) 3em;
+    border-radius: 1em;
+    box-shadow: 0 1em 3em rgba(0, 0, 0, 0.35);
     text-align: center;
     max-width: 90%;
 }
@@ -144,7 +178,7 @@ body {
 .warning-content h2 {
     color: var(--color-primary);
     margin-bottom: var(--spacing-lg);
-    font-size: 26px;
+    font-size: 1.625em;
     font-weight: 700;
 }
 
@@ -152,7 +186,7 @@ body {
     color: var(--color-text-medium);
     line-height: 1.7;
     margin-bottom: var(--spacing-sm);
-    font-size: 16px;
+    font-size: 1em;
 }
 
 @media (max-width: 767px) {
@@ -189,8 +223,8 @@ body {
    ESTILOS DOS NÓS SVG
    ======================================== */
 .node {
-    transition: opacity 0.3s ease, z-index 0s;
-    opacity: 0.6;
+    transition: opacity 0.4s ease, z-index 0s;
+    opacity: 0.5;
     z-index: 1;
 }
 
@@ -200,16 +234,16 @@ body {
 }
 
 .node:hover {
-    opacity: 0.95;
+    opacity: 0.9;
 }
 
 .connection-line {
-    opacity: 0.15;
+    opacity: 0.1;
     transition: opacity 0.3s ease;
 }
 
 .node.active ~ .connection-line {
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 /* ========================================
@@ -221,14 +255,14 @@ body {
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-    border-radius: 12px;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 0.75em;
+    box-shadow: 0 0.5em 2em rgba(0, 0, 0, 0.25), 0 0.125em 0.5em rgba(0, 0, 0, 0.1);
     padding: var(--node-padding);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: var(--color-white);
+    color: var(--color-text-dark);
     overflow: hidden;
     box-sizing: border-box;
     position: relative;
@@ -241,27 +275,28 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 6px;
+    height: 0.25em;
     background: var(--color-accent);
 }
 
 .node-central-content .node-code {
     font-size: var(--font-size-code);
     font-weight: 800;
-    letter-spacing: 1px;
+    letter-spacing: 0.0625em;
     margin-bottom: var(--spacing-md);
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.05);
     padding: var(--spacing-sm) var(--spacing-lg);
-    border-radius: 8px;
-    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-radius: 0.375em;
+    border: 0.125em solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.1);
 }
 
 .node-central-content .node-title {
     font-size: var(--font-size-title);
     font-weight: 600;
     text-align: center;
-    line-height: 1.6;
-    letter-spacing: 0.3px;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
 }
 
 /* Nó de Tabela */
@@ -269,15 +304,17 @@ body {
     width: 100%;
     height: 100%;
     background: var(--color-white);
-    border-radius: 12px;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.15);
-    padding: var(--node-padding);
+    border-radius: 0.75em;
+    /* box-shadow: 0 0.5em 2em rgba(0, 0, 0, 0.25), 0 0.125em 0.5em rgba(0, 0, 0, 0.1); */
+    padding: var(--spacing-lg);
     display: flex;
     flex-direction: column;
     overflow: auto;
     box-sizing: border-box;
     position: relative;
 }
+
+/* Padding padrão para todas as tabelas */
 
 /* Barra de destaque no topo */
 .node-table-content::before {
@@ -286,9 +323,9 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 6px;
-    background: linear-gradient(90deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
-    border-radius: 12px 12px 0 0;
+    height: 0.25em;
+    background: var(--color-secondary);
+    border-radius: 0.75em 0.75em 0 0;
 }
 
 .node-table-content .table-title {
@@ -296,21 +333,25 @@ body {
     font-weight: 700;
     color: var(--color-text-dark);
     margin-top: var(--spacing-xs);
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
     text-align: center;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 0.1875em solid #FFD600;
 }
 
 .data-table {
     width: 100%;
     border-collapse: collapse;
     overflow-x: auto;
-    border-radius: 8px;
+    border-radius: 0.375em;
     overflow: hidden;
+    border: 0.0625em solid var(--color-gray-200);
 }
 
 .data-table thead {
-    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+    background: #2196F3;
     color: var(--color-white);
     position: sticky;
     top: 0;
@@ -318,14 +359,14 @@ body {
 }
 
 .data-table th {
-    padding: var(--spacing-md) var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-sm);
     font-size: var(--font-size-table-header);
     font-weight: 700;
     text-align: left;
     border: none;
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-    min-width: 80px;
-    letter-spacing: 0.5px;
+    border-right: 0.0625em solid rgba(255, 255, 255, 0.15);
+    min-width: 5em;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
 }
 
@@ -334,17 +375,19 @@ body {
 }
 
 .data-table td {
-    padding: var(--spacing-md) var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-sm);
     font-size: var(--font-size-table-cell);
     color: var(--color-text-medium);
     border: none;
-    border-bottom: 1px solid var(--color-gray-200);
-    min-width: 80px;
-    line-height: 1.5;
+    border-bottom: 0.0625em solid var(--color-gray-200);
+    min-width: 5em;
+    line-height: 1.4;
 }
 
+/* Estilos unificados para todas as tabelas */
+
 .data-table tbody tr:nth-child(even) {
-    background: var(--color-gray-50);
+    background: #F9F9F9;
 }
 
 .data-table tbody tr:nth-child(odd) {
@@ -352,7 +395,7 @@ body {
 }
 
 .data-table tbody tr:hover {
-    background: rgba(33, 150, 243, 0.08);
+    background: rgba(33, 150, 243, 0.05);
     transition: background 0.2s ease;
 }
 
@@ -366,13 +409,176 @@ body {
     flex: 1;
 }
 
+/* Nó de Lista Especial (ITENS) */
+.node-list-content {
+    width: 100%;
+    height: 100%;
+    background: var(--color-white);
+    border-radius: 0.75em;
+    box-shadow: 0 0.5em 2em rgba(0, 0, 0, 0.25), 0 0.125em 0.5em rgba(0, 0, 0, 0.1);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.node-list-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.25em;
+    background: var(--color-secondary);
+    border-radius: 0.75em 0.75em 0 0;
+}
+
+.node-list-content .list-title {
+    font-size: var(--font-size-table-title);
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-top: var(--spacing-xs);
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 0.1875em solid #FFD600;
+}
+
+.items-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.items-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm);
+    border-left: 0.1875em solid var(--color-secondary);
+    background: var(--color-gray-50);
+    border-radius: 0.25em;
+}
+
+.items-list-item .item-number {
+    font-size: 1.25em;
+    font-weight: 800;
+    color: var(--color-secondary);
+    min-width: 1.5em;
+    line-height: 1.2;
+}
+
+.items-list-item .item-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+}
+
+.items-list-item .item-level {
+    font-size: 0.75em;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.items-list-item .item-description {
+    font-size: 0.8125em;
+    color: var(--color-text-medium);
+    line-height: 1.4;
+}
+
+/* Legenda I/A/C/R */
+.legend-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--color-gray-50);
+    border-radius: 0.5em;
+    flex-wrap: wrap;
+}
+
+.legend-title {
+    font-size: 0.6875em;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-right: var(--spacing-xs);
+}
+
+.legend-items {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.legend-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75em;
+    height: 1.75em;
+    border-radius: 0.25em;
+    font-size: 0.8125em;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+}
+
+.legend-badge.intro {
+    background: #E3F2FD;
+    color: #1976D2;
+    border: 0.125em solid #BBDEFB;
+}
+
+.legend-badge.develop {
+    background: #FFF9C4;
+    color: #F57C00;
+    border: 0.125em solid #FFF59D;
+}
+
+.legend-badge.consolidate {
+    background: #C8E6C9;
+    color: #388E3C;
+    border: 0.125em solid #A5D6A7;
+}
+
+.legend-badge.review {
+    background: #BBDEFB;
+    color: #1976D2;
+    border: 0.125em solid #90CAF9;
+}
+
+.legend-label {
+    font-size: 0.6875em;
+    color: var(--color-text-medium);
+    font-weight: 600;
+}
+
 /* Nó de Questão */
 .node-question-content {
     width: 100%;
     height: 100%;
     background: var(--color-white);
-    border-radius: 12px;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 0.75em;
+    box-shadow: 0 0.75em 3em rgba(0, 0, 0, 0.35), 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
     padding: var(--node-padding);
     display: flex;
     flex-direction: column;
@@ -388,9 +594,9 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 6px;
+    height: 0.375em;
     background: linear-gradient(90deg, var(--color-highlight) 0%, var(--color-accent-dark) 100%);
-    border-radius: 12px 12px 0 0;
+    border-radius: 0.75em 0.75em 0 0;
 }
 
 .node-question-content .question-title {
@@ -400,7 +606,7 @@ body {
     margin-top: var(--spacing-xs);
     margin-bottom: var(--spacing-lg);
     text-align: center;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.03em;
 }
 
 .question-image-container {
@@ -410,7 +616,7 @@ body {
     justify-content: center;
     overflow: hidden;
     background: var(--color-gray-50);
-    border-radius: 8px;
+    border-radius: 0.5em;
     padding: var(--spacing-md);
 }
 
@@ -419,8 +625,8 @@ body {
     max-height: 100%;
     object-fit: contain;
     display: block;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0.25em;
+    box-shadow: 0 0.125em 0.5em rgba(0, 0, 0, 0.1);
 }
 
 /* ========================================
@@ -431,27 +637,27 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 120px;
+    height: 7.5em;
     background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(1.25em);
+    -webkit-backdrop-filter: blur(1.25em);
+    box-shadow: 0 -0.25em 1.5em rgba(0, 0, 0, 0.1);
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 0.0625em solid rgba(255, 255, 255, 0.3);
 }
 
 @media (min-width: 768px) and (max-width: 2048px) {
     #navigationBar {
-        height: 90px;
+        height: 5.625em;
     }
 }
 
 .nav-controls {
     width: 100%;
-    max-width: 1400px;
+    max-width: 87.5em;
     padding: 0 var(--spacing-xl);
     display: flex;
     align-items: center;
@@ -460,14 +666,14 @@ body {
 }
 
 #progress {
-    font-size: 16px;
+    font-size: 1em;
     font-weight: 700;
     color: var(--color-text-dark);
-    letter-spacing: 0.5px;
+    letter-spacing: 0.03em;
     background: var(--color-gray-100);
     padding: var(--spacing-sm) var(--spacing-lg);
-    border-radius: 20px;
-    min-width: 100px;
+    border-radius: 1.25em;
+    min-width: 6.25em;
     text-align: center;
 }
 
@@ -480,24 +686,24 @@ body {
 .nav-btn {
     background: var(--color-white);
     color: var(--color-text-dark);
-    border: 2px solid var(--color-gray-300);
+    border: 0.125em solid var(--color-gray-300);
     padding: var(--spacing-md) var(--spacing-lg);
-    border-radius: 12px;
-    font-size: 15px;
+    border-radius: 0.75em;
+    font-size: 0.9375em;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
-    letter-spacing: 0.3px;
-    min-width: 130px;
+    letter-spacing: 0.02em;
+    min-width: 8.125em;
     justify-content: center;
 }
 
 .nav-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 1em;
+    height: 1em;
     transition: transform 0.3s ease;
 }
 
@@ -505,21 +711,21 @@ body {
     background: var(--color-primary);
     color: var(--color-white);
     border-color: var(--color-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+    transform: translateY(-0.125em);
+    box-shadow: 0 0.375em 1.25em rgba(76, 175, 80, 0.3);
 }
 
 .nav-btn:hover:not(:disabled) svg {
-    transform: translateX(3px);
+    transform: translateX(0.1875em);
 }
 
 #prevBtn:hover:not(:disabled) svg {
-    transform: translateX(-3px);
+    transform: translateX(-0.1875em);
 }
 
 .nav-btn:active:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: 0 3px 12px rgba(76, 175, 80, 0.25);
+    transform: translateY(-0.0625em);
+    box-shadow: 0 0.1875em 0.75em rgba(76, 175, 80, 0.25);
 }
 
 .nav-btn:disabled {
@@ -537,7 +743,7 @@ body {
 /* Responsividade */
 @media (max-width: 768px) {
     #navigationBar {
-        height: 100px;
+        height: 6.25em;
     }
 
     .nav-controls {
@@ -551,14 +757,14 @@ body {
     }
 
     .nav-btn {
-        min-width: 110px;
+        min-width: 6.875em;
         padding: var(--spacing-sm) var(--spacing-md);
-        font-size: 14px;
+        font-size: 0.875em;
     }
 
     #progress {
-        font-size: 14px;
-        padding: 6px var(--spacing-md);
+        font-size: 0.875em;
+        padding: 0.375em var(--spacing-md);
     }
 }
 
@@ -567,21 +773,21 @@ body {
    ======================================== */
 #minimap {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 1.25em;
+    right: 1.25em;
     background: var(--color-white);
-    border-radius: 12px;
+    border-radius: 0.75em;
     padding: var(--spacing-sm);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0.5em 1.5em rgba(0, 0, 0, 0.25);
     z-index: 1000;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(0.625em);
     display: none;
 }
 
 #minimapCanvas {
     display: block;
-    border: 2px solid var(--color-primary);
-    border-radius: 8px;
+    border: 0.125em solid var(--color-primary);
+    border-radius: 0.5em;
 }
 
 /* Esconder minimapa em tablets */
@@ -618,10 +824,10 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     color: var(--color-white);
-    font-size: 26px;
+    font-size: 1.625em;
     font-weight: 700;
-    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-    letter-spacing: 0.5px;
+    text-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.03em;
 }
 
 /* ========================================
@@ -629,16 +835,16 @@ body {
    ======================================== */
 .keyboard-hint {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 1.25em;
+    left: 1.25em;
     background: var(--color-white);
     padding: var(--spacing-md) var(--spacing-lg);
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    font-size: 14px;
+    border-radius: 0.75em;
+    box-shadow: 0 0.5em 1.5em rgba(0, 0, 0, 0.25);
+    font-size: 0.875em;
     color: var(--color-text-medium);
     line-height: 1.7;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(0.625em);
 }
 
 .keyboard-hint strong {
@@ -651,14 +857,14 @@ body {
     background: var(--color-text-dark);
     color: var(--color-white);
     padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: 8px;
-    font-size: 13px;
+    border-radius: 0.5em;
+    font-size: 0.8125em;
     font-weight: 600;
     pointer-events: none;
     z-index: 2000;
     white-space: nowrap;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-    letter-spacing: 0.3px;
+    box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.02em;
 }
 
 /* ========================================
@@ -694,9 +900,9 @@ body {
 .modal-content {
     position: relative;
     background: var(--color-white);
-    border-radius: 16px;
-    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
-    max-width: 800px;
+    border-radius: 1em;
+    box-shadow: 0 1.5em 4em rgba(0, 0, 0, 0.4);
+    max-width: 50em;
     width: 90%;
     max-height: 80vh;
     display: flex;
@@ -708,7 +914,7 @@ body {
 @keyframes slideUp {
     from {
         opacity: 0;
-        transform: translateY(40px) scale(0.95);
+        transform: translateY(2.5em) scale(0.95);
     }
     to {
         opacity: 1;
@@ -718,7 +924,7 @@ body {
 
 .modal-header {
     padding: var(--spacing-xl);
-    border-bottom: 2px solid var(--color-gray-200);
+    border-bottom: 0.125em solid var(--color-gray-200);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -727,20 +933,20 @@ body {
 }
 
 .modal-header h2 {
-    font-size: clamp(20px, 2.5vw, 28px);
+    font-size: 1.75em;
     font-weight: 700;
     margin: 0;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.03em;
 }
 
 .modal-close-btn {
     background: rgba(255, 255, 255, 0.2);
     border: none;
     color: var(--color-white);
-    font-size: 36px;
+    font-size: 2.25em;
     line-height: 1;
-    width: 40px;
-    height: 40px;
+    width: 2.5em;
+    height: 2.5em;
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -764,7 +970,7 @@ body {
 }
 
 .modal-body p {
-    font-size: clamp(16px, 1.5vw, 18px);
+    font-size: 1.125em;
     line-height: 1.8;
     color: var(--color-text-medium);
     margin: 0;
@@ -773,17 +979,17 @@ body {
 
 /* Scrollbar customizada no modal */
 .modal-body::-webkit-scrollbar {
-    width: 8px;
+    width: 0.5em;
 }
 
 .modal-body::-webkit-scrollbar-track {
     background: var(--color-gray-100);
-    border-radius: 4px;
+    border-radius: 0.25em;
 }
 
 .modal-body::-webkit-scrollbar-thumb {
     background: var(--color-gray-300);
-    border-radius: 4px;
+    border-radius: 0.25em;
 }
 
 .modal-body::-webkit-scrollbar-thumb:hover {
