@@ -135,7 +135,6 @@ class NavigationEngine {
         // PRIORIDADE 1: customDimensions responsivas (do breakpoint atual)
         if (nodeData) {
             customDimensions = this.getResponsiveConfig(nodeData, 'customDimensions');
-            console.log(`📏 Dimensões personalizadas para ${nodeType}:`, customDimensions);
         }
 
         // PRIORIDADE 2: customDimensions fornecidas diretamente (fallback)
