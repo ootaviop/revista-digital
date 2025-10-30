@@ -1,0 +1,38 @@
+{
+  "name": "revista-digital",
+  "version": "2.0.0",
+  "description": "Sistema de navegação visual tipo Prezi para revista educacional CAEd",
+  "main": "app.js",
+  "scripts": {
+    "build": "node build-layout.js",
+    "build:watch": "nodemon --watch data-source.json --exec npm run build",
+    "serve": "python3 -m http.server 8000",
+    "dev": "npm run build && npm run serve",
+    "validate": "node build-layout.js --validate-only",
+    "help": "echo '\n📚 Comandos disponíveis:\n  npm run build         - Gera data.json a partir de data-source.json\n  npm run build:watch   - Rebuilda automaticamente ao editar data-source.json\n  npm run serve         - Inicia servidor local na porta 8000\n  npm run dev           - Build + servidor em uma única etapa\n  npm run validate      - Valida data-source.json sem gerar arquivos\n  npm run help          - Mostra esta mensagem\n'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ootaviop/revista-digital.git"
+  },
+  "keywords": [
+    "education",
+    "visualization",
+    "prezi",
+    "svg",
+    "navigation"
+  ],
+  "author": "CAEd",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

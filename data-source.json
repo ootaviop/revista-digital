@@ -1,0 +1,143 @@
+{
+  "centralNode": {
+    "code": "D06",
+    "title": "Resolver problema envolvendo o cálculo de área de figuras planas.",
+    "modalContent": "Esta habilidade está relacionada ao reconhecimento e aplicação de procedimentos para o cálculo da área de diferentes figuras planas, como quadrados, retângulos, triângulos, paralelogramos, trapézios e círculos.\n\nO desenvolvimento dessa habilidade é fundamental para a resolução de problemas práticos do cotidiano e para o avanço em conceitos matemáticos mais complexos.\n\nA progressão desta habilidade acontece desde os anos iniciais, com estimativas em malhas quadriculadas, até o ensino médio, com problemas envolvendo composição e decomposição de figuras."
+  },
+  "nodes": [
+    {
+      "id": "node1",
+      "type": "table",
+      "title": "DESCRIÇÃO DAS HABILIDADES NO REFERENCIAL CURRICULAR DO ESTADO",
+      "position": {
+        "x": -1600,
+        "y": -200
+      },
+      "dimensions": {
+        "width": 900,
+        "height": 500
+      },
+      "zoom": 1.6,
+      "modalContent": "O Referencial Curricular do Estado estabelece uma progressão clara das habilidades relacionadas ao cálculo de área ao longo dos anos escolares.\n\nNo 1º e 2º ano (I - Introduzir), os alunos começam a compreender listas, agendas e textos do cotidiano.\n\nNo 3º, 4º e 5º anos (A - Aprofundar), exploram diferentes gêneros textuais com autonomia crescente.\n\nNos 6º ao 9º ano (C - Consolidar), identificam fatos centrais, temáticas e perspectivas em textos jornalísticos e midiáticos.\n\nNo Ensino Médio (R - Retomar), analisam e produzem textos considerando acontecimentos de interesse local e global.\n\nEsta progressão permite que os estudantes construam o conhecimento de forma gradual e consistente.",
+      "tableData": {
+        "headers": ["ANO", "ETAPA", "HABILIDADE"],
+        "rows": [
+          ["1EF-2EF", "I", "(EF12LP04) Ler e compreender, em colaboração com os colegas e com a ajuda do professor ou já com certa autonomia, listas, agendas, calendários, avisos, convites, receitas, instruções de montagem (digitais ou impressos), dentre outros gêneros do campo da vida cotidiana, considerando a situação comunicativa e o tema/assunto do texto e relacionando sua forma de organização à sua finalidade."],
+          ["3EF", "A", "(EF03LP12) Ler e compreender, com autonomia, cartas pessoais e diários, com expressão de sentimentos e opiniões, dentre outros gêneros do campo da vida cotidiana, de acordo com as convenções do gênero carta e considerando a situação comunicativa e o tema/assunto do texto."],
+          ["4EF", "A", "(EF04LP10)  Ler e compreender, com autonomia, cartas pessoais de reclamação, dentre outros gêneros do campo da vida cotidiana, de acordo com as convenções do gênero carta e considerando a situação comunicativa e o tema/assunto/finalidade do texto."],
+          ["5EF", "A", "(EF05LP10) Ler e compreender, com autonomia, anedotas, piadas e cartuns, dentre outros gêneros do campo da vida cotidiana, de acordo com as convenções do gênero e considerando a situação comunicativa e a finalidade do texto."],
+          ["6-9EF", "C", "(EF69LP03) Identificar, em notícias, o fato central, suas principais circunstâncias e eventuais decorrências; em reportagens e fotorreportagens o fato ou a temática retratada e a perspectiva de abordagem, em entrevistas os principais temas/ subtemas abordados, explicações dadas ou teses defendidas em relação a esses subtemas; em tirinhas, memes, charge, a crítica, ironia ou humor presente."],
+          ["EM", "R", "(EM13LP45) Analisar, discutir, produzir e socializar, tendo em vista temas e acontecimentos de interesse local ou global, notícias, fotodenúncias, fotorreportagens, reportagens multimidiáticas, documentários, infográficos, podcasts noticiosos, artigos de opinião, críticas da mídia, vlogs de opinião, textos de apresentação e apreciação de produções culturais (resenhas, ensaios etc.) e outros gêneros próprios das formas de expressão das culturas juvenis (vlogs e podcasts culturais, gameplay etc.), em várias mídias, vivenciando de forma significativa o papel de repórter, analista, crítico, editorialista ou articulista, leitor, vlogueiro e booktuber, entre outros."]
+        ]
+      }
+    },
+    {
+      "id": "node2",
+      "type": "table",
+      "title": "ITENS POR ANO/SÉRIE DE ESCOLARIDADE",
+      "position": {
+        "x": -700,
+        "y": 1000
+      },
+      "dimensions": {
+        "width": 900,
+        "height": 300
+      },
+      "zoom": 1.6,
+      "showLegend": true,
+      "modalContent": "Este gráfico mostra a evolução dos percentuais de acerto ao longo dos anos de 2022 a 2024, com previsão para 2025.\n\nEm 2022, o percentual foi de 58%, indicando um desempenho razoável mas com margem para melhoria.\n\nEm 2023, houve um avanço para 60%, demonstrando progresso nas intervenções pedagógicas.\n\nEm 2024, o percentual manteve-se em 60%, consolidando os ganhos do ano anterior.\n\nA meta para 2025 ainda está em aberto, dependendo das ações implementadas.\n\nA legenda de cores indica: I = Introduzir, A = Aprofundar, C = Consolidar, R = Retomar.",
+      "tableData": {
+        "headers": ["2022", "2023", "2024", "2025"],
+        "rows": [
+          ["58%", "60%", "60%", "?"]
+        ]
+      }
+    },
+    {
+      "id": "node3",
+      "type": "table",
+      "title": "PROGRESSÃO DA HABILIDADE NO REFERENCIAL CURRICULAR DO ESTADO",
+      "position": {
+        "x": 1300,
+        "y": -700
+      },
+      "dimensions": {
+        "width": 900,
+        "height": 200
+      },
+      "zoom": 1.6,
+      "modalContent": "Esta tabela apresenta a progressão da habilidade ao longo das etapas de ensino, desde o 1º ano do Ensino Fundamental até o 3º ano do Ensino Médio.\n\nAs letras indicam o momento pedagógico:\nI = Introduzir (primeira apresentação do conteúdo)\nA = Aprofundar (desenvolvimento e expansão do conhecimento)\nC = Consolidar (fixação e domínio da habilidade)\nR = Retomar (revisão e aplicação em contextos mais complexos)\n\nObserva-se que a habilidade é introduzida nos anos iniciais, aprofundada ao longo do Ensino Fundamental, consolidada no 9º ano e retomada no Ensino Médio.",
+      "tableData": {
+        "headers": ["1EF", "2EF", "3EF", "4EF", "5EF", "6EF", "7EF", "8EF", "9EF", "1EM", "2EM", "3EM"],
+        "rows": [
+          ["I", "I", "A", "A", "A", "A", "A", "A", "C", "R", "R", "R"]
+        ]
+      }
+    },
+    {
+      "id": "node4",
+      "type": "list",
+      "title": "ITENS",
+      "position": {
+        "x": 1700,
+        "y": 500
+      },
+      "dimensions": {
+        "width": 900,
+        "height": 400
+      },
+      "zoom": 1.6,
+      "modalContent": "Esta seção lista os diferentes níveis de complexidade dos itens avaliativos, organizados do mais fácil ao mais difícil.\n\n1. Muito fácil: Tarefas básicas que envolvem contagem direta ou aplicação simples de conceitos.\n\n2. Fácil: Tarefas que requerem aplicação direta de fórmulas ou procedimentos conhecidos.\n\n3. Difícil: Tarefas que exigem decomposição de problemas ou uso de múltiplas estratégias.\n\n4. Muito difícil: Tarefas complexas que demandam composição de conhecimentos e raciocínio abstrato.\n\nCada nível representa um salto qualitativo nas demandas cognitivas exigidas dos estudantes.",
+      "listItems": [
+        {
+          "level": "Muito fácil",
+          "description": "Determinar a área de figuras desenhadas em malhas quadriculadas por meio de contagem."
+        },
+        {
+          "level": "Fácil",
+          "description": "Determinar a área de um terreno retangular representado em uma malha quadriculada."
+        },
+        {
+          "level": "Difícil",
+          "description": "Determinar a área de uma figura poligonal não convexa desenhada sobre uma malha quadriculada."
+        },
+        {
+          "level": "Muito difícil",
+          "description": "Determinar a área de figuras formadas pela composição/decomposição de triângulos, paralelogramos, trapézios e círculos."
+        }
+      ]
+    },
+    {
+      "id": "node5",
+      "type": "table",
+      "title": "PERCENTUAL DE ACERTO NA HABILIDADE — SOMATIVA 2024",
+      "position": {
+        "x": 1500,
+        "y": 1500
+      },
+      "dimensions": {
+        "width": 900,
+        "height": 400
+      },
+      "zoom": 1.6,
+      "modalContent": "A análise comparativa dos percentuais de acerto entre diferentes etapas de ensino revela padrões importantes sobre o desenvolvimento da habilidade.\n\nNo 2º ano (60%), os estudantes estão começando a inferir assuntos de textos simples.\n\nNo 5º ano (60%), mantém-se o mesmo percentual, identificando temas em textos mais complexos.\n\nNo 9º ano (73%), há um salto significativo, demonstrando consolidação da habilidade.\n\nNo 3º ano do Ensino Médio (83%), atinge-se o maior percentual, indicando domínio da identificação de temas.\n\nEsta progressão mostra desenvolvimento consistente ao longo da escolaridade.",
+      "tableData": {
+        "headers": ["ETAPA", "DESCRITOR", "HABILIDADE", "ACERTO"],
+        "rows": [
+          ["2EF", "D06", "Inferir o assunto de um texto.", "60%"],
+          ["5EF", "D06", "Identificar o tema de um texto.", "60%"],
+          ["9EF", "D06", "Identificar o tema de um texto.", "73%"],
+          ["3EM", "D06", "Identificar o tema de um texto.", "83%"]
+        ]
+      }
+    }
+  ],
+  "navigationPath": [
+    "central",
+    "node1",
+    "node2",
+    "node3",
+    "node4",
+    "node5"
+  ]
+}
