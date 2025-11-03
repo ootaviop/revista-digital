@@ -1,0 +1,51 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 8px;
+}
+
+.containerRevista{
+    width: 100vw;
+    height: 100vh;
+    background-color: lightpink;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.svgContainer{
+    background-color: lightcyan;
+}
+
+.central{
+background-color: lightyellow;
+}
+
+.passo-1{
+background-color: lightgreen;
+}
+
+.object1{
+    background-color: lightgray;
+}
+.object2{
+    background-color: transparent;
+}
+.object3{
+    background-color: lightseagreen;
+}
+.object4{
+    background-color: lightsteelblue;
+}
+.object5{
+    background-color: lightgoldenrodyellow;
+}
+.object6{
+    background-color: lightpink;
+}
+
+
