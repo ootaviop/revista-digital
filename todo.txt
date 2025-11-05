@@ -4,7 +4,13 @@
 
 [/] - Aproximar estilização das tabelas do modelo feito pelo Fabrício
     [x] - Tabela 1
-    [/] - Tabela 2
-    [ ] - Tabela 3
+    [x] - Tabela 2
+    [x] - Tabela 3
     [ ] - Tabela 4 + Itens
-    [ ] - Tabela 5
+    [x] - Tabela 5
+
+[ ] -  Criar animação de um nó a outro.
+
+[ ] - Adicionar botões para clicar em modal.
+
+[ ] - Ver como será a montagem com o data.json.

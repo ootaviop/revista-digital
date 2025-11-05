@@ -7,15 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const svgPanZoomFn = (typeof svgPanZoom !== 'undefined') ? svgPanZoom : window.svgPanZoom;
   if (!svgPanZoomFn) {
-    console.error('Biblioteca svg-pan-zoom não encontrada. Verifique se o script CDN foi incluído antes de pan.js');
+    console.error('Biblioteca svg-pan-zoom não encontrada.');
     return;
   }
 
   const panZoomInstance = svgPanZoomFn(svg, {
     panEnabled: true,
     controlIconsEnabled: true,
-    // Ative o zoom se quiser suporte a zoom; se preferir apenas pan, coloque false
-    zoomEnabled: false,
+    zoomEnabled: true,
     fit: false,
     center: true,
     minZoom: 0.8,
@@ -24,87 +23,171 @@ document.addEventListener('DOMContentLoaded', () => {
     zoomScaleSensitivity: 0.2,
   });
 
-// Função para focar em elemento específico
-function focusElementPanZoom(panZoomInstance, element, zoomLevel = 2, padding = 20) {
-  const bbox = element.getBBox();
-  const svg = element.ownerSVGElement;
+  let animationQueue = [];
+  let isAnimating = false;
 
-  // Centro do elemento no espaço SVG interno
-  const cx = bbox.x + bbox.width / 2;
-  const cy = bbox.y + bbox.height / 2;
+  function easeInOutQuad(t) {
+    return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  }
 
-  // Ajustando largura e altura com padding no sistema SVG interno
-  const width = bbox.width + padding;
-  const height = bbox.height + padding;
+  function lerp(start, end, t) {
+    return start + (end - start) * t;
+  }
 
-  // Obtem o tamanho visível do viewport do SVG e zoom atual
-  const sizes = panZoomInstance.getSizes();
-
-  // Calcula escala para o zoom desejado e limites do viewport
-  const scaleX = sizes.width / width;
-  const scaleY = sizes.height / height;
-  const scale = Math.min(scaleX, scaleY, zoomLevel);
-
-  // Aplica zoom
-  panZoomInstance.zoom(scale);
-
-  // Calcula o pan para centralizar o conteúdo (em pixels)
-  const panX = sizes.width / 2 - cx * scale;
-  const panY = sizes.height / 2 - cy * scale;
-
-  panZoomInstance.pan({ x: panX, y: panY });
-}
-
-
- const elements = {
-    elem1: {
-        selector: svg.querySelector('.object1'),
-        paddingPercent: 50,
-        zoomLevel: 1.7
-    },
-    elem2: {
-        selector: svg.querySelector('.object2'),
-        paddingPercent: 50,
-        zoomLevel: 1.7
-    },
-    elem3: {
-        selector: svg.querySelector('.object3'),
-        paddingPercent: 15,
-        zoomLevel: 1.7
-    },
-    elem4: {
-        selector: svg.querySelector('.object4'),
-        paddingPercent: 15,
-        zoomLevel: 1.4
-    },
-    elem5: {
-        selector: svg.querySelector('.object5'),
-        paddingPercent: 1,
-        zoomLevel: 1.7
-    },
-    elem6: {
-        selector: svg.querySelector('.object6'),
-        paddingPercent: 15,
-        zoomLevel: 1.7
+  function animate(duration, onUpdate, onComplete) {
+    const startTime = performance.now();
+    
+    function step(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeInOutQuad(progress);
+      
+      onUpdate(easedProgress);
+      
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        onComplete();
+      }
     }
+    
+    requestAnimationFrame(step);
+  }
+
+  function calculatePan(cx, cy, zoom) {
+    const sizes = panZoomInstance.getSizes();
+    return {
+      x: sizes.width / 2 - cx * zoom,
+      y: sizes.height / 2 - cy * zoom
+    };
+  }
+
+  function executeAnimation(targetElement, targetZoom, padding) {
+    const bbox = targetElement.getBBox();
+    const sizes = panZoomInstance.getSizes();
+
+    const currentZoom = panZoomInstance.getZoom();
+    const currentPan = panZoomInstance.getPan();
+
+    // Centro do elemento
+    const cx = bbox.x + bbox.width / 2;
+    const cy = bbox.y + bbox.height / 2;
+
+    // Calcula zoom final
+    const width = bbox.width + padding;
+    const height = bbox.height + padding;
+    const scaleX = sizes.width / width;
+    const scaleY = sizes.height / height;
+    const finalZoom = Math.min(scaleX, scaleY, targetZoom);
+
+    // Zoom intermediário
+    const intermediateZoom = Math.min(currentZoom, finalZoom, 1.2);
+
+    // Pan para cada zoom
+    const intermediatePan = calculatePan(cx, cy, intermediateZoom);
+    const finalPan = calculatePan(cx, cy, finalZoom);
+
+    // Bloqueia interação
+    panZoomInstance.disablePan();
+    panZoomInstance.disableZoom();
+
+    // Calcula centro atual da viewport em coordenadas SVG
+    const currentCenterX = (sizes.width / 2 - currentPan.x) / currentZoom;
+    const currentCenterY = (sizes.height / 2 - currentPan.y) / currentZoom;
+    
+    // Pan para manter centro atual no zoom intermediário
+    const keepCenterPan = calculatePan(currentCenterX, currentCenterY, intermediateZoom);
+
+    // Etapa 1: Zoom out mantendo centro atual
+    animate(500, 
+      (t) => {
+        const zoom = lerp(currentZoom, intermediateZoom, t);
+        const pan = {
+          x: lerp(currentPan.x, keepCenterPan.x, t),
+          y: lerp(currentPan.y, keepCenterPan.y, t)
+        };
+        panZoomInstance.zoom(zoom);
+        panZoomInstance.pan(pan);
+      },
+      () => {
+        // Etapa 2: Pan para novo elemento (zoom intermediário constante)
+        animate(1000,
+          (t) => {
+            const pan = {
+              x: lerp(keepCenterPan.x, intermediatePan.x, t),
+              y: lerp(keepCenterPan.y, intermediatePan.y, t)
+            };
+            panZoomInstance.pan(pan);
+          },
+          () => {
+            // Etapa 3: Zoom in no novo elemento
+            animate(800,
+              (t) => {
+                const zoom = lerp(intermediateZoom, finalZoom, t);
+                const pan = {
+                  x: lerp(intermediatePan.x, finalPan.x, t),
+                  y: lerp(intermediatePan.y, finalPan.y, t)
+                };
+                panZoomInstance.zoom(zoom);
+                panZoomInstance.pan(pan);
+              },
+              () => {
+                panZoomInstance.enablePan();
+                panZoomInstance.enableZoom();
+                isAnimating = false;
+                processQueue();
+              }
+            );
+          }
+        );
+      }
+    );
+  }
+
+  function processQueue() {
+    if (animationQueue.length === 0 || isAnimating) return;
+    isAnimating = true;
+    const next = animationQueue.shift();
+    executeAnimation(next.element, next.zoom, next.padding);
+  }
+
+  function queueAnimation(element, zoomLevel, padding) {
+    animationQueue.push({ element, zoom: zoomLevel, padding });
+    processQueue();
+  }
+
+  const elements = {
+    elem1: { selector: svg.querySelector('.object1'), paddingPercent: 50, zoomLevel: 1.7 },
+    elem2: { selector: svg.querySelector('.object2'), paddingPercent: 50, zoomLevel: 1.85 },
+    elem3: { selector: svg.querySelector('.object3'), paddingPercent: 15, zoomLevel: 1.7 },
+    elem4: { selector: svg.querySelector('.object4'), paddingPercent: 15, zoomLevel: 1.4 },
+    elem5: { selector: svg.querySelector('.object5'), paddingPercent: 1, zoomLevel: 1.7 },
+    elem6: { selector: svg.querySelector('.object6'), paddingPercent: 15, zoomLevel: 1.7 }
   };
-    const containerRevista = document.querySelector('.containerRevista');
-    containerRevista.style.position = 'relative';
-    const btnContainer = document.createElement('div');
-    btnContainer.className = 'btnContainer';
-    btnContainer.style.position = 'absolute';
-    btnContainer.style.top = '10px';
-    btnContainer.style.right = '10px';
-    btnContainer.style.display = 'flex';
-    btnContainer.style.flexDirection = 'column';
-    btnContainer.style.gap = '5px';
-    containerRevista.appendChild(btnContainer);
-    Object.keys(elements).forEach((key) => {
-        const button = document.createElement('button');
-        button.textContent = `Zoom para ${key}`;
-        button.addEventListener('click', () => {
-            focusElementPanZoom(panZoomInstance, elements[key].selector, elements[key].zoomLevel, elements[key].paddingPercent);
-        });
-        btnContainer.appendChild(button);
-    });
+
+  const containerRevista = document.querySelector('.containerRevista');
+  containerRevista.style.position = 'relative';
+  
+  const btnContainer = document.createElement('div');
+  btnContainer.className = 'btnContainer';
+  Object.assign(btnContainer.style, {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '5px'
+  });
+  containerRevista.appendChild(btnContainer);
+
+  Object.keys(elements).forEach((key) => {
+    const button = document.createElement('button');
+    button.textContent = `Zoom para ${key}`;
+    button.onclick = () => queueAnimation(
+      elements[key].selector,
+      elements[key].zoomLevel,
+      elements[key].paddingPercent
+    );
+    btnContainer.appendChild(button);
+  });
 });

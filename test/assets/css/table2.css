@@ -1,143 +1,433 @@
-@import 'fonts.css';
+/* ========================================
+   SISTEMA DE ESCALA RESPONSIVO
+   ======================================== */
 
-/* Reset localizado */
-.revista-tabela-anos-container,
-.revista-tabela-anos-container * {
+/* Variáveis de escala baseadas em viewport */
+:root {
+  --font-xs: clamp(8px, 0.5vw, 16px);
+  --font-sm: clamp(10px, 0.625vw, 20px);
+  --font-md: clamp(12px, 0.75vw, 24px);
+  --font-lg: clamp(14px, 0.875vw, 28px);
+  --font-xl: clamp(16px, 1vw, 32px);
+  --font-xxl: clamp(18px, 1.125vw, 36px);
+  
+  --padding-xs: clamp(2px, 0.125vw, 4px);
+  --padding-sm: clamp(4px, 0.25vw, 8px);
+  --padding-md: clamp(8px, 0.5vw, 16px);
+  --padding-lg: clamp(12px, 0.75vw, 24px);
+}
+
+/* ========================================
+   RESET GLOBAL PARA TABELAS
+   ======================================== */
+
+.revista-tabela-container,
+.revista-tabela-container * {
   all: unset;
   box-sizing: border-box;
 }
 
-/* Container */
-.revista-tabela-anos-container {
-  display: block;
+/* ========================================
+   CONTAINER GENÉRICO
+   ======================================== */
+
+.revista-tabela-outer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  height: 100%;
 }
 
-/* Tabela */
-.revista-tabela-anos {
+.revista-tabela-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  margin: auto;
+}
+
+.revista-tabela-container .revista-tabela-titulo {
+  display: block;
+  font-size: var(--font-lg);
+  font-weight: bold;
+  margin-bottom: var(--padding-md);
+  text-transform: uppercase;
+  color: #333;
+}
+
+/* ========================================
+   TABELA TIPO 1 - BNCC
+   ======================================== */
+
+.revista-tabela.tp-1 {
+  --color1: #b9f6fb;
+  --color2: #82eef9;
+  --color3: #08c5d9;
+  --color4: #06a3b5;
+  --border-gray: 1px solid #e0e0e0;
+}
+
+.revista-tabela.tp-1 {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-sm);
+  line-height: 1.2;
+  color: #000;
+}
+
+.revista-tabela.tp-1 tbody {
+  display: table-row-group;
+}
+
+.revista-tabela.tp-1 tr {
+  display: table-row;
+  position: relative;
+}
+
+.revista-tabela.tp-1 td {
+  display: table-cell;
+  padding: var(--padding-sm) var(--padding-md);
+  vertical-align: middle;
+}
+
+.revista-tabela.tp-1 .col-anos {
+  width: 12%;
+  padding-left: var(--padding-md);
+  font-weight: bold;
+  border-top: var(--border-gray);
+}
+
+.revista-tabela.tp-1 .col-letra {
+  width: 6%;
+  position: relative;
+  padding-left: clamp(16px, 1vw, 32px);
+  font-weight: bold;
+  border-top: 1px solid #ffffff;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.revista-tabela.tp-1 .col-descricao {
+  width: 82%;
+  padding: clamp(6px, 0.375vw, 12px) var(--padding-sm);
+  border-top: var(--border-gray);
+  vertical-align: top;
+  text-align: justify;
+  font-weight: 300;
+  letter-spacing: 0.05px;
+}
+
+.revista-tabela.tp-1 .col-letra::before {
+  content: "";
+  position: absolute;
+  left: var(--padding-sm);
+  top: 0;
+  width: clamp(8px, 0.5vw, 16px);
+  height: 100%;
+  border-left: clamp(6px, 0.4vw, 12px) solid;
+}
+
+.revista-tabela.tp-1 .linha-1 .col-letra::before {
+  border-left-color: var(--color1);
+}
+
+.revista-tabela.tp-1 .linha-2 .col-letra::before,
+.revista-tabela.tp-1 .linha-3 .col-letra::before,
+.revista-tabela.tp-1 .linha-4 .col-letra::before {
+  border-left-color: var(--color2);
+}
+
+.revista-tabela.tp-1 .linha-5 .col-letra::before {
+  border-left-color: var(--color3);
+}
+
+.revista-tabela.tp-1 .linha-6 .col-letra::before {
+  border-left-color: var(--color4);
+}
+
+.revista-tabela.tp-1 tr:last-child .col-anos,
+.revista-tabela.tp-1 tr:last-child .col-descricao {
+  border-bottom: var(--border-gray);
+}
+
+.revista-tabela.tp-1 .codigo-bncc {
+  font-weight: bold;
+  display: inline;
+}
+
+.revista-tabela.tp-1 br {
+  display: block;
+  content: "";
+  margin: clamp(1px, 0.06vw, 2px) 0;
+}
+
+/* ========================================
+   TABELA TIPO 2 - ANOS
+   ======================================== */
+
+.revista-tabela.tp-2 {
   display: table;
   width: 100%;
   border-collapse: collapse;
   text-align: center;
-}
-
-.revista-tabela-anos thead {
-  display: table-header-group;
-}
-
-.revista-tabela-anos tbody {
-  display: table-row-group;
-}
-
-.revista-tabela-anos tr {
-  display: table-row;
-}
-
-.revista-tabela-anos th,
-.revista-tabela-anos td {
-  display: table-cell;
-  padding: 12px 16px;
-  font-size: 18px;
+  font-size: var(--font-sm);
   font-weight: bold;
 }
 
-/* Cabeçalho */
-.revista-tabela-anos th {
+.revista-tabela.tp-2 thead {
+  display: table-header-group;
+}
+
+.revista-tabela.tp-2 tbody {
+  display: table-row-group;
+}
+
+.revista-tabela.tp-2 tr {
+  display: table-row;
+}
+
+.revista-tabela.tp-2 th,
+.revista-tabela.tp-2 td {
+  display: table-cell;
+  padding: var(--padding-xs) var(--padding-sm);
+}
+
+.revista-tabela.tp-2 th {
   background: #ffffff;
   color: #333333;
-  border-right: 2px solid #d0d0d0;
-  border-top: 2px solid #d0d0d0;
+  border-left: 1px solid #d0d0d0;
+  border-right: 1px solid #d0d0d0;
 }
 
-.revista-tabela-anos th:last-child {
-  border-right: 2px solid #d0d0d0;
+.revista-tabela.tp-2 td {
+  border-right: 1px solid white;
+  border-left: 1px solid white;
 }
 
-.revista-tabela-anos th:first-child {
-  border-left: 2px solid #d0d0d0;
-}
-
-/* Células de valor */
-.revista-tabela-anos td {
-  border-right: 2px solid #d0d0d0;
-  border-bottom: 2px solid #d0d0d0;
-  font-size: 24px;
-}
-
-.revista-tabela-anos td:first-child {
-  border-left: 2px solid #d0d0d0;
-}
-
-/* Cores por faixa */
-.revista-tabela-anos .valor-baixo {
-  background: #E63946;
+.revista-tabela.tp-2 .valor-baixo {
+  background: #e63946;
   color: #ffffff;
 }
 
-.revista-tabela-anos .valor-medio {
-  background: #F6A623;
+.revista-tabela.tp-2 .valor-medio {
+  background: #f6a623;
   color: #333333;
 }
 
-.revista-tabela-anos .valor-alto {
-  background: #6ECFDB;
+.revista-tabela.tp-2 .valor-alto {
+  background: #6ecfdb;
   color: #333333;
 }
 
-.revista-tabela-anos .valor-muito-alto {
-  background: #1E88E5;
+.revista-tabela.tp-2 .valor-muito-alto {
+  background: #1e88e5;
   color: #ffffff;
 }
 
-.revista-tabela-anos .valor-indefinido {
-  background: #E0E0E0;
+.revista-tabela.tp-2 .valor-indefinido {
+  background: #e0e0e0;
   color: #666666;
-  font-size: 28px;
 }
 
-/* Legenda */
+/* ========================================
+   LEGENDAS
+   ======================================== */
+
 .revista-tabela-legenda {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
-  margin-top: 24px;
+  gap: var(--padding-md);
+  margin-top: var(--padding-lg);
   align-items: center;
+  justify-content: center;
 }
 
 .revista-tabela-legenda .legenda-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--padding-md);
 }
 
 .revista-tabela-legenda .legenda-circulo {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: clamp(12px, 0.75vw, 24px);
+  height: clamp(12px, 0.75vw, 24px);
   border-radius: 50%;
   flex-shrink: 0;
 }
 
-.revista-tabela-legenda .legenda-circulo.vermelho {
-  background: #E63946;
-}
-
-.revista-tabela-legenda .legenda-circulo.laranja {
-  background: #F6A623;
-}
-
-.revista-tabela-legenda .legenda-circulo.azul-claro {
-  background: #6ECFDB;
-}
-
-.revista-tabela-legenda .legenda-circulo.azul-escuro {
-  background: #1E88E5;
-}
-
 .revista-tabela-legenda .legenda-texto {
   display: inline;
-  font-size: 14px;
+  font-size: var(--font-sm);
   color: #333333;
   font-weight: normal;
+}
+
+.tp-2-legenda .legenda-circulo.vermelho {
+  background: #e63946;
+}
+
+.tp-2-legenda .legenda-circulo.laranja {
+  background: #f6a623;
+}
+
+.tp-2-legenda .legenda-circulo.azul-claro {
+  background: #6ecfdb;
+}
+
+.tp-2-legenda .legenda-circulo.azul-escuro {
+  background: #1e88e5;
+}
+
+/* ========================================
+   TABELA TIPO 3 - PROGRESSÃO
+   ======================================== */
+
+.revista-tabela.tp-3 {
+  --color1: #b9f6fb;
+  --color2: #82eef9;
+  --color3: #08c5d9;
+  --color4: #06a3b5;
+  --border-gray: 1px solid #e0e0e0;
+}
+
+.revista-tabela.tp-3 {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: var(--font-sm);
+  font-weight: bold;
+}
+
+.revista-tabela.tp-3 thead {
+  display: table-header-group;
+}
+
+.revista-tabela.tp-3 tbody {
+  display: table-row-group;
+}
+
+.revista-tabela.tp-3 tr {
+  display: table-row;
+}
+
+.revista-tabela.tp-3 th {
+  display: table-cell;
+  padding: var(--padding-xs) var(--padding-xs) var(--padding-sm) var(--padding-xs);
+  border-right: var(--border-gray);
+  font-size: var(--font-sm);
+}
+
+.revista-tabela.tp-3 td {
+  display: table-cell;
+  padding: clamp(8px, 0.5vw, 16px) var(--padding-xs);
+}
+
+.revista-tabela.tp-3 th:last-child,
+.revista-tabela.tp-3 td:last-child {
+  border-right: none;
+}
+
+.revista-tabela.tp-3 th {
+  background: #ffffff;
+  color: black;
+}
+
+.revista-tabela.tp-3 td {
+  background: #ffffff;
+  color: black;
+  font-size: var(--font-md);
+  position: relative;
+  padding-bottom: var(--padding-md);
+  border-top: clamp(2px, 0.15vw, 4px) solid white;
+}
+
+.revista-tabela.tp-3 td::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(var(--padding-xs) * -1);
+  height: clamp(2px, 0.15vw, 4px);
+  width: 100%;
+}
+
+.revista-tabela.tp-3 td.cls-1::before {
+  border-bottom: clamp(3px, 0.2vw, 6px) solid var(--color1);
+}
+
+.revista-tabela.tp-3 td.cls-2::before {
+  border-bottom: clamp(3px, 0.2vw, 6px) solid var(--color2);
+}
+
+.revista-tabela.tp-3 td.cls-3::before {
+  border-bottom: clamp(3px, 0.2vw, 6px) solid var(--color3);
+}
+
+.revista-tabela.tp-3 td.cls-4::before {
+  border-bottom: clamp(3px, 0.2vw, 6px) solid var(--color4);
+}
+
+/* ========================================
+   TABELA TIPO 5 - ETAPAS/DESCRITORES
+   ======================================== */
+
+.revista-tabela.tp-5 {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-sm);
+}
+
+.revista-tabela.tp-5 thead {
+  display: table-header-group;
+}
+
+.revista-tabela.tp-5 tbody {
+  display: table-row-group;
+}
+
+.revista-tabela.tp-5 tr {
+  display: table-row;
+}
+
+.revista-tabela.tp-5 th,
+.revista-tabela.tp-5 td {
+  display: table-cell;
+  padding: var(--padding-xs) var(--padding-sm);
+  text-align: left;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+.revista-tabela.tp-5 th {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #333333;
+}
+
+.revista-tabela.tp-5 td:last-child {
+  text-align: center;
+  font-weight: bold;
+  font-size: var(--font-md);
+  width: clamp(80px, 5vw, 160px);
+}
+
+.revista-tabela.tp-5 .valor-medio {
+  background: #f6a623;
+  color: #333333;
+}
+
+.revista-tabela.tp-5 .valor-alto {
+  background: #6ecfdb;
+  color: #333333;
+}
+
+.revista-tabela.tp-5 .valor-muito-alto {
+  background: #1e88e5;
+  color: #ffffff;
 }
