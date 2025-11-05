@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     panEnabled: true,
     controlIconsEnabled: true,
     // Ative o zoom se quiser suporte a zoom; se preferir apenas pan, coloque false
-    zoomEnabled: true,
+    zoomEnabled: false,
     fit: false,
     center: true,
     minZoom: 0.8,
@@ -64,13 +64,13 @@ function focusElementPanZoom(panZoomInstance, element, zoomLevel = 2, padding = 
     },
     elem2: {
         selector: svg.querySelector('.object2'),
-        paddingPercent: 100,
+        paddingPercent: 50,
         zoomLevel: 1.7
     },
     elem3: {
         selector: svg.querySelector('.object3'),
         paddingPercent: 15,
-        zoomLevel: 2
+        zoomLevel: 1.7
     },
     elem4: {
         selector: svg.querySelector('.object4'),
@@ -80,12 +80,12 @@ function focusElementPanZoom(panZoomInstance, element, zoomLevel = 2, padding = 
     elem5: {
         selector: svg.querySelector('.object5'),
         paddingPercent: 1,
-        zoomLevel: 1.55
+        zoomLevel: 1.7
     },
     elem6: {
         selector: svg.querySelector('.object6'),
         paddingPercent: 15,
-        zoomLevel: 1.5
+        zoomLevel: 1.7
     }
   };
     const containerRevista = document.querySelector('.containerRevista');

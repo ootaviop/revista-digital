@@ -1,0 +1,180 @@
+@import 'fonts.css';
+
+/* ========================================
+   RESET AGRESSIVO - Anula Bootstrap
+   ======================================== */
+
+.revista-bncc-tabela,
+.revista-bncc-tabela *,
+.revista-bncc-tabela *::before,
+.revista-bncc-tabela *::after {
+  all: unset;
+  box-sizing: border-box;
+}
+
+/* ========================================
+   VARIÁVEIS CSS
+   ======================================== */
+
+.revista-bncc-tabela.tp-1 {
+  --color1: #b9f6fb;
+  --color2: #82eef9;
+  --color3: #08c5d9;
+  --color4: #06a3b5;
+  --border-gray: 1px solid #e0e0e0;
+}
+
+/* ========================================
+   ESTRUTURA BASE DA TABELA
+   ======================================== */
+
+.revista-bncc-tabela.tp-1 {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  font-size: 10px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.revista-bncc-tabela.tp-1 tbody {
+  display: table-row-group;
+}
+
+.revista-bncc-tabela.tp-1 tr {
+  display: table-row;
+  position: relative;
+}
+
+.revista-bncc-tabela.tp-1 td {
+  display: table-cell;
+  padding: 4px 8px;
+}
+
+/* ========================================
+   LARGURAS DAS COLUNAS
+   ======================================== */
+
+.revista-bncc-tabela.tp-1 .col-anos {
+  width: 12%;
+}
+
+.revista-bncc-tabela.tp-1 .col-letra {
+  width: 6%;
+}
+
+.revista-bncc-tabela.tp-1 .col-descricao {
+  width: 82%;
+}
+
+/* ========================================
+   ALINHAMENTOS
+   ======================================== */
+
+.revista-bncc-tabela.tp-1 .col-anos,
+.revista-bncc-tabela.tp-1 .col-letra {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.revista-bncc-tabela.tp-1 .col-descricao {
+  vertical-align: top;
+  text-align: justify;
+}
+
+/* ========================================
+   COLUNA DE ANOS
+   ======================================== */
+
+.revista-bncc-tabela.tp-1 .col-anos {
+  padding-left: 8px;
+  font-weight: bold;
+  border-top: var(--border-gray);
+}
+
+.revista-bncc-tabela.tp-1 tr:last-child .col-anos {
+  border-bottom: var(--border-gray);
+}
+
+/* ========================================
+   COLUNA DE LETRA (com barra colorida)
+   ======================================== */
+
+.revista-bncc-tabela.tp-1 .col-letra {
+  position: relative;
+  padding-left: 20px;
+  font-weight: bold;
+  border-top: 1px solid #ffffff;
+}
+
+.revista-bncc-tabela.tp-1 .col-letra::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 0;
+  width: 10px;
+  height: 100%;
+  border-left: 8px solid;
+}
+
+/* Cores da barra por linha */
+.revista-bncc-tabela.tp-1 .linha-1 .col-letra::before {
+  border-left-color: var(--color1);
+}
+
+.revista-bncc-tabela.tp-1 .linha-2 .col-letra::before,
+.revista-bncc-tabela.tp-1 .linha-3 .col-letra::before,
+.revista-bncc-tabela.tp-1 .linha-4 .col-letra::before {
+  border-left-color: var(--color2);
+}
+
+.revista-bncc-tabela.tp-1 .linha-5 .col-letra::before {
+  border-left-color: var(--color3);
+}
+
+.revista-bncc-tabela.tp-1 .linha-6 .col-letra::before {
+  border-left-color: var(--color4);
+}
+
+/* ========================================
+   COLUNA DE DESCRIÇÃO
+   ======================================== */
+
+.revista-bncc-tabela.tp-1 .col-descricao {
+  padding: 12px 4px;
+  border-top: var(--border-gray);
+}
+
+.revista-bncc-tabela.tp-1 tr:last-child .col-descricao {
+  border-bottom: var(--border-gray);
+}
+
+/* ========================================
+   CÓDIGO BNCC EM NEGRITO
+   ======================================== */
+
+.revista-bncc-tabela.tp-1 .codigo-bncc {
+  font-weight: bold;
+  display: inline;
+}
+
+/* ========================================
+   AJUSTES FINOS
+   ======================================== */
+
+.revista-bncc-tabela.tp-1 br {
+  display: block;
+  content: "";
+  margin: 2px 0;
+}
+
+/* ========================================
+   CONTAINER WRAPPER
+   ======================================== */
+
+.revista-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
