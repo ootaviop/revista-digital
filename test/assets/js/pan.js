@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const keepCenterPan = calculatePan(currentCenterX, currentCenterY, intermediateZoom);
 
     // Etapa 1: Zoom out mantendo centro atual
-    animate(500, 
+    animate(800, 
       (t) => {
         const zoom = lerp(currentZoom, intermediateZoom, t);
         const pan = {

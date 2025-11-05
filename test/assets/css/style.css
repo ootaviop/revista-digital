@@ -10,6 +10,7 @@
   --padding-sm: clamp(4px, 0.25vw, 8px);
   --padding-md: clamp(8px, 0.5vw, 16px);
   --padding-lg: clamp(12px, 0.75vw, 24px);
+  --padding-xl: clamp(16px, 1vw, 32px);
 }
 
 * {
@@ -138,7 +139,7 @@
 .revista-tabela-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
   height: 100%;
@@ -151,7 +152,7 @@
   display: block;
   font-size: var(--font-lg);
   font-weight: bold;
-  margin-bottom: var(--padding-md);
+  margin-bottom: var(--padding-xl);
   text-transform: uppercase;
   color: #333;
 }
@@ -214,7 +215,7 @@
   padding: clamp(6px, 0.375vw, 12px) var(--padding-sm);
   border-top: var(--border-gray);
   vertical-align: top;
-  text-align: justify;
+  text-align: left;
   font-weight: 300;
   letter-spacing: 0.05px;
   font-size: var(--font-xs);
