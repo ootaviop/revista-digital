@@ -1,0 +1,10 @@
+05/11 - Quarta-feira
+
+# Lista de afazeres
+
+[ ] - Aproximar estilização das tabelas do modelo feito pelo Fabrício
+    [ ] - Tabela 1
+    [ ] - Tabela 2
+    [ ] - Tabela 3
+    [ ] - Tabela 4 + Itens
+    [ ] - Tabela 5
